@@ -1,4 +1,7 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import Product from './Product';
+
+const productsPerPage = 10;
 
 const ProductList = () => {
     const [products, setProducts] = useState([]);
@@ -8,8 +11,23 @@ const ProductList = () => {
 
     useEffect(() => {
 
-        const fetchProducts = () => {
-            
+        const fetchProducts = async () => {
+            const response = await fetch(
+                `https://dummyjson.com/products?limit=${productsPerPage}&skip=${
+                page * productsPerPage
+            }`
+        );
+        const data = await response.json();
+        if(data.products.length === 0){
+            setHasMore(false);
+        } else {
+            setProducts(preProduct => [
+                ...preProduct, 
+                ...data.products
+            ]);
+            setPage((prevPage) => prevPage + 1);
+        }
+
         };
 
         const onIntersection = (items) => {
@@ -30,11 +48,16 @@ const ProductList = () => {
       return () => {
         if(observer) observer.disconnect();
       }
-    }, []);
+    }, [hasMore, page]);
 
   return (
     <div>
         <div>Product List</div>
+        {
+            products.map((product) => (
+                <Product key={product.id} />
+            ))
+        }
 
         <div>Loding more products...</div>
     </div>
