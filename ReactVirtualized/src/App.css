@@ -1,0 +1,30 @@
+.App {
+    text-align: center;
+}
+
+.list {
+    padding: 10px;
+    height: calc(100vh - 20px);
+}
+
+.row {
+    border-bottom: 1px solid #ebeced;
+    text-align: left;
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
+}
+
+.image {
+    margin-right: 10px;
+}
+
+.image img {
+    width: 100px;
+    height: 100px;
+    border-radius: 10%;
+}
+
+.content {
+    padding: 10px;
+}
